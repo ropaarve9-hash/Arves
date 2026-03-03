@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARVES — Tienda de Moda</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue-deep: #0A1A4E;
+  --blue-mid: #1A3A8F;
+  --blue-bright: #1E6FE8;
+  --blue-light: #4A9FFF;
+  --blue-glow: #6BB8FF;
+  --white: #FFFFFF;
+  --off-white: #F0F4FA;
+  --grey-light: #C8D4E8;
+  --grey-mid: #7A90B0;
+  --dark: #060D24;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BG particles */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(30,111,232,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 80%, rgba(10,26,78,0.6) 0%, transparent 60%),
+    linear-gradient(160deg, #060D24 0%, #0A1A4E 50%, #060D24 100%);
+  pointer-events:none;
+}
+
+/* NAV */
+nav {
+  position:fixed; top:0; width:100%; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px;
+  height:72px;
+  background: rgba(6,13,36,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(30,111,232,0.2);
+}
+
+.nav-logo {
+  display:flex; align-items:center; gap:14px;
+}
+.nav-logo img { height:44px; filter: drop-shadow(0 0 10px rgba(74,159,255,0.6)); }
+.nav-logo-text {
+  font-family:'Rajdhani',sans-serif;
+  font-size:26px; font-weight:700; letter-spacing:5px;
+  background: linear-gradient(135deg, var(--blue-light), var(--white));
+  -webkit-background-clip: text; -webkit-text-fill-color:transparent;
+}
+
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  text-decoration:none; font-size:11px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--grey-mid); transition:all 0.3s; font-weight:600;
+}
+.nav-links a:hover { color:var(--blue-light); text-shadow:0 0 20px rgba(74,159,255,0.8); }
+
+.nav-right { display:flex; align-items:center; gap:16px; }
+.cart-btn {
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  color:white; border:none; padding:10px 24px;
+  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:3px; text-transform:uppercase; cursor:pointer;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  transition:all 0.3s; position:relative;
+}
+.cart-btn:hover { background: linear-gradient(135deg, var(--blue-bright), var(--blue-glow)); transform:translateY(-1px); box-shadow:0 4px 20px rgba(30,111,232,0.5); }
+.cart-badge {
+  position:absolute; top:-6px; right:-6px;
+  background:var(--blue-glow); color:var(--dark); width:20px; height:20px;
+  border-radius:50%; font-size:10px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* HERO */
+.hero {
+  position:relative; z-index:1;
+  min-height:100vh; display:flex; align-items:center;
+  padding:100px 48px 60px;
+  overflow:hidden;
+}
+
+.hero-bg-owl {
+  position:absolute; right:-5%; top:50%; transform:translateY(-50%);
+  font-size:500px; opacity:0.03; pointer-events:none; line-height:1;
+  filter:blur(2px);
+}
+
+.hero-lines {
+  position:absolute; inset:0; pointer-events:none;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent 0px, transparent 60px,
+    rgba(30,111,232,0.04) 60px, rgba(30,111,232,0.04) 61px
+  );
+}
+
+.hero-content { max-width:620px; position:relative; z-index:2; }
+.hero-eyebrow {
+  display:flex; align-items:center; gap:12px; margin-bottom:28px;
+}
+.hero-line { width:40px; height:2px; background:var(--blue-bright); }
+.hero-eyebrow span {
+  font-size:11px; letter-spacing:4px; text-transform:uppercase;
+  color:var(--blue-light); font-weight:600;
+}
+
+.hero-content h1 {
+  font-family:'Rajdhani',sans-serif;
+  font-size:88px; font-weight:700; line-height:0.92;
+  letter-spacing:2px; margin-bottom:32px;
+}
+.hero-content h1 .line1 { color:var(--white); display:block; }
+.hero-content h1 .line2 {
+  display:block;
+  background: linear-gradient(90deg, var(--blue-bright), var(--blue-glow));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-content h1 .line3 { color:var(--grey-mid); display:block; font-weight:400; }
+
+.hero-content p {
+  font-size:15px; line-height:1.8; color:var(--grey-mid);
+  margin-bottom:44px; max-width:440px;
+}
+
+.hero-ctas { display:flex; gap:16px; align-items:center; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue-bright), #3A8FFF);
+  color:white; border:none; padding:16px 40px;
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase; cursor:pointer;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition:all 0.3s;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(30,111,232,0.6); }
+.btn-secondary {
+  background:transparent; color:var(--blue-light); border:1px solid rgba(74,159,255,0.4);
+  padding:15px 32px; font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:all 0.3s;
+}
+.btn-secondary:hover { border-color:var(--blue-light); background:rgba(74,159,255,0.08); }
+
+.hero-stats {
+  position:absolute; right:48px; bottom:80px; z-index:2;
+  display:flex; gap:48px;
+}
+.stat { text-align:center; }
+.stat-num {
+  font-family:'Rajdhani',sans-serif; font-size:42px; font-weight:700;
+  background: linear-gradient(135deg, var(--blue-light), var(--white));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  display:block;
+}
+.stat-label { font-size:10px; letter-spacing:2px; color:var(--grey-mid); text-transform:uppercase; }
+
+/* PRODUCTS SECTION */
+.section-wrap { position:relative; z-index:1; padding:80px 48px; }
+
+.section-head {
+  display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px;
+}
+.section-head h2 {
+  font-family:'Rajdhani',sans-serif; font-size:48px; font-weight:700;
+  letter-spacing:2px;
+}
+.section-head h2 span {
+  background: linear-gradient(90deg, var(--blue-bright), var(--blue-glow));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.section-divider {
+  height:2px; flex:1; margin:0 32px 12px;
+  background: linear-gradient(90deg, rgba(30,111,232,0.6), transparent);
+}
+.see-all {
+  font-family:'Rajdhani',sans-serif; font-size:12px; letter-spacing:3px;
+  text-transform:uppercase; color:var(--blue-light); cursor:pointer;
+  padding-bottom:12px; transition:color 0.2s;
+}
+.see-all:hover { color:var(--white); }
+
+/* FILTER TABS */
+.filter-tabs { display:flex; gap:8px; margin-bottom:36px; flex-wrap:wrap; }
+.filter-tab {
+  background:transparent; border:1px solid rgba(74,159,255,0.2);
+  color:var(--grey-mid); padding:8px 20px; cursor:pointer;
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase; transition:all 0.2s;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.filter-tab.active, .filter-tab:hover {
+  background:rgba(30,111,232,0.2); border-color:var(--blue-bright);
+  color:var(--blue-light); box-shadow:0 0 15px rgba(30,111,232,0.2);
+}
+
+.products-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+}
+
+.product-card {
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(30,111,232,0.15);
+  cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
+}
+.product-card::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(30,111,232,0.05), transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.product-card:hover { border-color:rgba(30,111,232,0.5); transform:translateY(-6px); box-shadow:0 16px 40px rgba(30,111,232,0.2); }
+.product-card:hover::before { opacity:1; }
+
+.product-img {
+  aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;
+  font-size:64px; position:relative; overflow:hidden;
+  background: linear-gradient(145deg, rgba(10,26,78,0.8), rgba(6,13,36,0.9));
+}
+.product-img-glow {
+  position:absolute; inset:0;
+  background: radial-gradient(circle at 50% 40%, rgba(30,111,232,0.15), transparent 70%);
+}
+
+.p-tag {
+  position:absolute; top:12px; left:0;
+  background: linear-gradient(90deg, var(--blue-bright), var(--blue-mid));
+  color:white; font-family:'Rajdhani',sans-serif; font-size:10px;
+  font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  padding:5px 16px 5px 12px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.p-tag.sale { background: linear-gradient(90deg, #E83A1E, #FF6B4A); }
+
+.add-overlay {
+  position:absolute; bottom:0; left:0; right:0;
+  background: linear-gradient(0deg, rgba(10,26,78,0.95), rgba(30,111,232,0.7));
+  padding:16px; text-align:center;
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase; color:white;
+  transform:translateY(100%); transition:transform 0.3s;
+}
+.product-card:hover .add-overlay { transform:translateY(0); }
+
+.p-info { padding:16px; }
+.p-name { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:600; margin-bottom:4px; letter-spacing:1px; }
+.p-cat { font-size:10px; letter-spacing:2px; color:var(--grey-mid); text-transform:uppercase; margin-bottom:10px; }
+.p-price { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; }
+.p-price .orig { text-decoration:line-through; color:var(--grey-mid); margin-right:8px; font-weight:400; font-size:13px; }
+.p-price .sale { color:#FF6B4A; }
+
+/* AI CHAT */
+.ai-fab {
+  position:fixed; bottom:32px; right:32px; z-index:300;
+  width:64px; height:64px; border-radius:50%;
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  border:2px solid rgba(74,159,255,0.4); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px;
+  box-shadow:0 8px 30px rgba(30,111,232,0.5), 0 0 0 0 rgba(30,111,232,0.4);
+  animation: fab-pulse 3s infinite;
+  transition:all 0.3s;
+}
+@keyframes fab-pulse {
+  0%,100%{box-shadow:0 8px 30px rgba(30,111,232,0.5),0 0 0 0 rgba(30,111,232,0.4)}
+  50%{box-shadow:0 8px 30px rgba(30,111,232,0.6),0 0 0 12px rgba(30,111,232,0)}
+}
+.ai-fab:hover { transform:scale(1.08); background: linear-gradient(135deg, var(--blue-bright), var(--blue-glow)); }
+
+.ai-panel {
+  position:fixed; bottom:112px; right:32px; z-index:300;
+  width:390px; height:540px; border-radius:4px;
+  background: rgba(6,13,36,0.97);
+  border:1px solid rgba(30,111,232,0.35);
+  display:flex; flex-direction:column;
+  box-shadow:0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(30,111,232,0.15);
+  transform:scale(0.88) translateY(24px);
+  opacity:0; pointer-events:none;
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  overflow:hidden;
+}
+.ai-panel.open { transform:scale(1) translateY(0); opacity:1; pointer-events:all; }
+
+.ai-header {
+  padding:18px 22px;
+  background: linear-gradient(90deg, rgba(10,26,78,0.9), rgba(30,111,232,0.15));
+  border-bottom:1px solid rgba(30,111,232,0.2);
+  display:flex; align-items:center; gap:14px;
+}
+.ai-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; border:2px solid rgba(74,159,255,0.4);
+  box-shadow:0 0 15px rgba(30,111,232,0.4);
+}
+.ai-hinfo h3 {
+  font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700;
+  letter-spacing:1px; color:var(--white);
+}
+.ai-hinfo p { font-size:9px; letter-spacing:3px; color:var(--blue-light); text-transform:uppercase; }
+.ai-status-dot {
+  margin-left:auto; display:flex; align-items:center; gap:6px;
+  font-size:10px; color:#4CF07A; letter-spacing:1px;
+}
+.dot { width:7px; height:7px; border-radius:50%; background:#4CF07A; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+.ai-messages {
+  flex:1; overflow-y:auto; padding:20px 22px;
+  display:flex; flex-direction:column; gap:14px;
+  scrollbar-width:thin; scrollbar-color:rgba(30,111,232,0.3) transparent;
+}
+
+.msg { max-width:88%; display:flex; flex-direction:column; gap:4px; }
+.msg.ai { align-self:flex-start; }
+.msg.user { align-self:flex-end; }
+.msg-bubble {
+  padding:11px 15px; border-radius:16px;
+  font-size:13px; line-height:1.65;
+}
+.msg.ai .msg-bubble {
+  background:rgba(30,111,232,0.1); color:#C8D8F0;
+  border:1px solid rgba(30,111,232,0.2);
+  border-radius:4px 16px 16px 16px;
+}
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  color:white; border-radius:16px 4px 16px 16px;
+}
+.msg-time { font-size:10px; color:rgba(255,255,255,0.25); padding:0 4px; }
+.msg.user .msg-time { text-align:right; }
+
+.typing-indicator {
+  display:flex; align-items:center; gap:6px;
+  padding:11px 15px; background:rgba(30,111,232,0.1);
+  border:1px solid rgba(30,111,232,0.2); border-radius:4px 16px 16px 16px;
+  width:fit-content;
+}
+.typing-dots span {
+  width:6px; height:6px; border-radius:50%; background:var(--blue-light);
+  display:inline-block; animation:typing 1.4s infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:0.2s}
+.typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,80%,100%{transform:scale(0.7);opacity:0.4}40%{transform:scale(1);opacity:1}}
+
+.ai-chips {
+  padding:8px 22px 10px; display:flex; flex-wrap:wrap; gap:6px;
+}
+.chip {
+  background:rgba(30,111,232,0.1); border:1px solid rgba(30,111,232,0.3);
+  color:var(--blue-light); font-size:11px; padding:5px 12px;
+  border-radius:20px; cursor:pointer; transition:all 0.2s;
+  font-family:'Rajdhani',sans-serif; font-weight:600; letter-spacing:1px;
+}
+.chip:hover { background:rgba(30,111,232,0.25); border-color:var(--blue-bright); }
+
+.ai-input-row {
+  padding:14px 22px 18px;
+  border-top:1px solid rgba(30,111,232,0.15);
+  display:flex; gap:10px; align-items:flex-end;
+}
+.ai-input {
+  flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(30,111,232,0.25);
+  border-radius:24px; padding:10px 16px; color:white;
+  font-family:'Nunito Sans',sans-serif; font-size:13px;
+  resize:none; outline:none; max-height:80px; transition:border-color 0.2s;
+}
+.ai-input:focus { border-color:rgba(74,159,255,0.6); box-shadow:0 0 15px rgba(30,111,232,0.15); }
+.ai-input::placeholder { color:rgba(255,255,255,0.25); }
+.ai-send {
+  width:40px; height:40px; border-radius:50%;
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  border:none; cursor:pointer; font-size:16px; color:white;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; flex-shrink:0;
+}
+.ai-send:hover { transform:scale(1.08); box-shadow:0 4px 15px rgba(30,111,232,0.5); }
+.ai-send:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+/* CART */
+.cart-modal { position:fixed; inset:0; z-index:400; display:flex; pointer-events:none; }
+.cart-overlay { flex:1; background:rgba(0,0,0,0.7); opacity:0; transition:opacity 0.3s; backdrop-filter:blur(4px); }
+.cart-panel {
+  width:420px; background:var(--dark);
+  border-left:1px solid rgba(30,111,232,0.25);
+  transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.25,0,0,1);
+  display:flex; flex-direction:column; height:100%; overflow-y:auto;
+}
+.cart-modal.open { pointer-events:all; }
+.cart-modal.open .cart-overlay { opacity:1; }
+.cart-modal.open .cart-panel { transform:translateX(0); }
+
+.cart-head {
+  padding:40px 36px 24px; border-bottom:1px solid rgba(30,111,232,0.15);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.cart-head h2 { font-family:'Rajdhani',sans-serif; font-size:32px; font-weight:700; letter-spacing:3px; }
+.close-x { background:none; border:none; color:var(--grey-mid); font-size:26px; cursor:pointer; transition:color 0.2s; }
+.close-x:hover { color:white; }
+
+.cart-body { flex:1; padding:24px 36px; }
+.cart-item {
+  display:flex; gap:16px; align-items:center;
+  padding:16px 0; border-bottom:1px solid rgba(30,111,232,0.1);
+}
+.ci-img {
+  width:72px; height:90px; display:flex; align-items:center; justify-content:center;
+  font-size:36px; flex-shrink:0; background:rgba(30,111,232,0.08);
+  border:1px solid rgba(30,111,232,0.15);
+}
+.ci-name { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:600; }
+.ci-cat { font-size:10px; color:var(--grey-mid); letter-spacing:2px; text-transform:uppercase; margin:3px 0; }
+.ci-price { font-family:'Rajdhani',sans-serif; font-size:15px; color:var(--blue-light); }
+.rm-btn { background:none; border:none; color:var(--grey-mid); font-size:20px; cursor:pointer; margin-left:auto; transition:color 0.2s; }
+.rm-btn:hover { color:#FF4A4A; }
+
+.cart-foot { padding:24px 36px 40px; border-top:1px solid rgba(30,111,232,0.15); }
+.cart-tot { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:24px; }
+.cart-tot-lbl { font-size:11px; letter-spacing:3px; color:var(--grey-mid); text-transform:uppercase; }
+.cart-tot-val { font-family:'Rajdhani',sans-serif; font-size:32px; font-weight:700; color:var(--blue-light); }
+.checkout-btn {
+  width:100%; padding:18px;
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  color:white; border:none; cursor:pointer;
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:4px; text-transform:uppercase; transition:all 0.3s;
+}
+.checkout-btn:hover { background: linear-gradient(135deg, var(--blue-bright), var(--blue-glow)); box-shadow:0 8px 30px rgba(30,111,232,0.5); }
+
+.empty-cart { text-align:center; padding:60px 0; color:var(--grey-mid); }
+.empty-cart p { font-family:'Rajdhani',sans-serif; font-size:22px; letter-spacing:2px; margin-bottom:6px; }
+
+/* TOAST */
+.toast {
+  position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+  color:white; padding:14px 32px; font-family:'Rajdhani',sans-serif;
+  font-size:13px; letter-spacing:2px; font-weight:700;
+  border-radius:2px; z-index:500; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 8px 30px rgba(30,111,232,0.4);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .hero{padding:90px 20px 60px;}
+  .hero-content h1{font-size:56px;}
+  .hero-stats{display:none;}
+  .hero-bg-owl{display:none;}
+  .section-wrap{padding:60px 20px;}
+  .products-grid{grid-template-columns:repeat(2,1fr);}
+  .ai-panel{width:calc(100vw - 40px); right:20px;}
+  .cart-panel{width:100vw;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    
+    <span class="nav-logo-text">ARVES</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Novedades</a></li>
+    <li><a href="#">Hombre</a></li>
+    <li><a href="#">Mujer</a></li>
+    <li><a href="#">Accesorios</a></li>
+    <li><a href="#">Sale</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="toggleCart()" style="position:relative;">
+      Carrito
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-lines"></div>
+  <div class="hero-bg-owl">🦉</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-line"></div>
+      <span>Colección 2026</span>
+    </div>
+    <h1>
+      <span class="line1">ESTILO</span>
+      <span class="line2">ARVES</span>
+      <span class="line3">Primavera</span>
+    </h1>
+    <p>Moda contemporánea con carácter. Piezas diseñadas para quienes marcan tendencia, no la siguen.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="document.querySelector('.section-wrap').scrollIntoView({behavior:'smooth'})">Ver Colección</button>
+      <button class="btn-secondary">Lookbook</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">200+</span><span class="stat-label">Productos</span></div>
+    <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">Clientes</span></div>
+    <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Calidad</span></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section-wrap">
+  <div class="section-head">
+    <h2>LO MÁS <span>NUEVO</span></h2>
+    <div class="section-divider"></div>
+    <span class="see-all">Ver Todo →</span>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterProducts('todos',this)">Todos</button>
+    <button class="filter-tab" onclick="filterProducts('hombre',this)">Hombre</button>
+    <button class="filter-tab" onclick="filterProducts('mujer',this)">Mujer</button>
+    <button class="filter-tab" onclick="filterProducts('accesorios',this)">Accesorios</button>
+    <button class="filter-tab" onclick="filterProducts('sale',this)">Sale</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- AI FAB -->
+<button class="ai-fab" onclick="toggleAI()" title="Asistente ARVES IA">🦉</button>
+
+<!-- AI PANEL -->
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <div class="ai-avatar">🦉</div>
+    <div class="ai-hinfo">
+      <h3>ARCA — Asistente ARVES</h3>
+      <p>Powered by Claude AI</p>
+    </div>
+    <div class="ai-status-dot"><div class="dot"></div>Activo</div>
+  </div>
+  <div class="ai-messages" id="aiMessages">
+    <div class="msg ai">
+      <div class="msg-bubble">¡Bienvenido a ARVES! 🦉<br><br>Soy ARCA, tu asistente de moda inteligente. Puedo ayudarte a encontrar el look perfecto, orientarte con tallas o resolver cualquier duda sobre nuestra colección. ¿En qué te ayudo?</div>
+      <div class="msg-time">Ahora</div>
+    </div>
+  </div>
+  <div class="ai-chips" id="aiChips">
+    <div class="chip" onclick="sendSugg('¿Qué es tendencia en ARVES esta temporada?')">🔥 Tendencias</div>
+    <div class="chip" onclick="sendSugg('Arma un outfit completo para mí')">👔 Outfit completo</div>
+    <div class="chip" onclick="sendSugg('¿Cómo elijo mi talla correcta?')">📏 Guía de tallas</div>
+    <div class="chip" onclick="sendSugg('¿Qué productos tienen descuento?')">🏷️ Descuentos</div>
+  </div>
+  <div class="ai-input-row">
+    <textarea class="ai-input" id="aiInput" placeholder="Pregunta sobre moda, tallas, outfits..." rows="1"
+      onkeydown="handleKey(event)" oninput="resize(this)"></textarea>
+    <button class="ai-send" id="aiSendBtn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-overlay" onclick="toggleCart()"></div>
+  <div class="cart-panel">
+    <div class="cart-head">
+      <h2>CARRITO</h2>
+      <button class="close-x" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="empty-cart"><p>VACÍO</p><small style="color:var(--grey-mid)">Agrega productos para continuar</small></div>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-tot">
+        <span class="cart-tot-lbl">Total</span>
+        <span class="cart-tot-val" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn">PROCEDER AL PAGO →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// PRODUCTS
+const products = [
+  {id:1,name:'Chamarra Táctica',cat:'Hombre',type:'hombre',price:1890,emoji:'🧥',tag:'nuevo'},
+  {id:2,name:'Pantalón Cargo Elite',cat:'Hombre',type:'hombre',price:1290,emoji:'👖',tag:null},
+  {id:3,name:'Vestido Noche Azul',cat:'Mujer',type:'mujer',price:2150,emoji:'👗',tag:'nuevo'},
+  {id:4,name:'Blusa Satinada',cat:'Mujer',type:'mujer',price:890,origPrice:1200,emoji:'👚',tag:'sale'},
+  {id:5,name:'Bolso Táctico Premium',cat:'Accesorios',type:'accesorios',price:2450,emoji:'👜',tag:'nuevo'},
+  {id:6,name:'Cinturón Hebilla ARVES',cat:'Accesorios',type:'accesorios',price:490,origPrice:690,emoji:'👝',tag:'sale'},
+  {id:7,name:'Camisa Oxford Slim',cat:'Hombre',type:'hombre',price:990,emoji:'👔',tag:null},
+  {id:8,name:'Falda Asimétrica',cat:'Mujer',type:'mujer',price:1150,emoji:'🩱',tag:null},
+];
+
+let cart=[], currentFilter='todos';
+
+function renderProducts(filter='todos'){
+  const filtered = filter==='todos' ? products : filter==='sale' ? products.filter(p=>p.tag==='sale') : products.filter(p=>p.type===filter);
+  document.getElementById('productsGrid').innerHTML = filtered.map(p=>`
+    <div class="product-card" onclick="addToCart(${p.id})">
+      <div class="product-img">
+        <div class="product-img-glow"></div>
+        ${p.tag?`<div class="p-tag ${p.tag==='sale'?'sale':''}">${p.tag==='sale'?'SALE':'NUEVO'}</div>`:''}
+        <span>${p.emoji}</span>
+        <div class="add-overlay">+ AÑADIR AL CARRITO</div>
+      </div>
+      <div class="p-info">
+        <div class="p-name">${p.name}</div>
+        <div class="p-cat">${p.cat}</div>
+        <div class="p-price">${p.origPrice?`<span class="orig">$${p.origPrice.toLocaleString()}</span><span class="sale">$${p.price.toLocaleString()}</span>`:`$${p.price.toLocaleString()}`} MXN</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(f,el){
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active'); renderProducts(f);
+}
+
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
+  const ex=cart.find(x=>x.id===id);
+  if(ex) ex.qty++; else cart.push({...p,qty:1});
+  updateCart(); showToast(`✓ ${p.name} añadido`);
+}
+function removeFromCart(id){ cart=cart.filter(x=>x.id!==id); updateCart(); }
+
+function updateCart(){
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent=count;
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('cartTotal').textContent=`$${total.toLocaleString()} MXN`;
+  const body=document.getElementById('cartBody');
+  body.innerHTML=cart.length===0
+    ?'<div class="empty-cart"><p>VACÍO</p><small style="color:var(--grey-mid)">Agrega productos para continuar</small></div>'
+    :cart.map(i=>`<div class="cart-item">
+      <div class="ci-img">${i.emoji}</div>
+      <div><div class="ci-name">${i.name}</div><div class="ci-cat">${i.cat} × ${i.qty}</div><div class="ci-price">$${(i.price*i.qty).toLocaleString()} MXN</div></div>
+      <button class="rm-btn" onclick="removeFromCart(${i.id})">×</button>
+    </div>`).join('');
+}
+
+function toggleCart(){ document.getElementById('cartModal').classList.toggle('open'); }
+
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// AI
+let aiOpen=false, isTyping=false, history=[];
+
+const ctx=`Eres ARCA, el asistente de moda inteligente de ARVES (arves.com.mx), una marca de moda contemporánea mexicana con estilo audaz y urbano. Tu personalidad: directo, cool, conocedor de moda. Responde siempre en español, máximo 3-4 frases salvo necesidad.
+
+Catálogo ARVES:
+${products.map(p=>`- ${p.name} (${p.cat}): $${p.price} MXN${p.origPrice?`, antes $${p.origPrice}`:''} ${p.tag?`[${p.tag}]`:''}`).join('\n')}
+
+Precios en pesos mexicanos. Guía de tallas: CH=S(36-38), M=38-40, G=40-42, XG=44+. Envíos a todo México desde ARVES.com.mx. Si te preguntan algo no relacionado con moda o ARVES, redirige amablemente.`;
+
+function toggleAI(){ aiOpen=!aiOpen; document.getElementById('aiPanel').classList.toggle('open',aiOpen); }
+function sendSugg(t){ document.getElementById('aiInput').value=t; sendMsg(); }
+
+async function sendMsg(){
+  const inp=document.getElementById('aiInput');
+  const text=inp.value.trim(); if(!text||isTyping) return;
+  addMsg(text,'user'); inp.value=''; inp.style.height='auto';
+  document.getElementById('aiChips').style.display='none';
+  isTyping=true; document.getElementById('aiSendBtn').disabled=true; showTyping();
+  history.push({role:'user',content:text});
+  if(history.length>12) history=history.slice(-12);
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:ctx,messages:history})
+    });
+    const d=await r.json();
+    const reply=d.content?.[0]?.text||'Disculpa, hubo un error.';
+    hideTyping(); addMsg(reply,'ai'); history.push({role:'assistant',content:reply});
+  }catch(e){ hideTyping(); addMsg('Error de conexión. Intenta de nuevo.','ai'); }
+  isTyping=false; document.getElementById('aiSendBtn').disabled=false;
+}
+
+function addMsg(text,role){
+  const c=document.getElementById('aiMessages');
+  const now=new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div'); d.className=`msg ${role==='user'?'user':'ai'}`;
+  d.innerHTML=`<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now}</div>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+
+let typEl=null;
+function showTyping(){ const c=document.getElementById('aiMessages'); typEl=document.createElement('div'); typEl.className='msg ai'; typEl.innerHTML='<div class="typing-indicator"><div class="typing-dots"><span></span><span></span><span></span></div></div>'; c.appendChild(typEl); c.scrollTop=c.scrollHeight; }
+function hideTyping(){ if(typEl){typEl.remove();typEl=null;} }
+function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
+function resize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,80)+'px'; }
+
+renderProducts();
+</script>
+</body>
+</html>
